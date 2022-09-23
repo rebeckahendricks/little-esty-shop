@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe "merchant dashboard" do
   before :each do
     @merchant1 = Merchant.create!(id: 45, name:"Bob's Baskets")
+    @merchant2 = Merchant.create!(id: 46, name:"Porter's Pants")
+
+    @discount1 = BulkDiscount.create!(merchant_id: 45, discount: 20, threshold: 5)
+    @discount2 = BulkDiscount.create!(merchant_id: 45, discount: 30, threshold: 10)
+    @discount3 = BulkDiscount.create!(merchant_id: 45, discount: 50, threshold: 20)
+    @discount4 = BulkDiscount.create!(merchant_id: 46, discount: 10, threshold: 3)
 
     @customer1 = Customer.create!(id: 45, first_name:"John", last_name:"Doe")
     @customer2 = Customer.create!(id: 46, first_name:"Becka", last_name:"Hendricks")
@@ -94,7 +100,6 @@ RSpec.describe "merchant dashboard" do
     end
 
     describe 'Top 5 Customers' do
-
       it 'I see the names of the top 5 customers who have conducted the largest number of successful transactions with my merchant' do
         visit merchant_dashboard_index_path(45)
 
@@ -182,6 +187,66 @@ RSpec.describe "merchant dashboard" do
 
         within '#items_ready_to_ship' do
           expect(item2).to appear_before(item1)
+        end
+      end
+    end
+
+    describe 'Merchant Bulk Discounts Index' do
+      it 'I see a link to view all my discounts' do
+        visit merchant_dashboard_index_path(45)
+
+        expect(page).to have_link("My Discounts")
+      end
+
+      describe 'When I click this link' do
+        it 'I am taken to my bulk discounts index page' do
+          visit merchant_dashboard_index_path(45)
+
+          click_link "My Discounts"
+          expect(current_path).to eq(merchant_bulk_discounts_path(45))
+        end
+
+        it 'Where I see all of my bulk discounts including their percentage discount and quantity thresholds' do
+          visit merchant_bulk_discounts_path(45)
+
+          expect(page).to have_content("Discount ##{@discount1.id}")
+          expect(page).to have_content("Discount ##{@discount2.id}")
+          expect(page).to have_content("Discount ##{@discount3.id}")
+          expect(page).to_not have_content("Discount ##{@discount4.id}")
+
+          within "#discount_#{@discount1.id}" do
+            expect(page).to have_content("20% off 5 items or more")
+          end
+
+          within "#discount_#{@discount2.id}" do
+            expect(page).to have_content("30% off 10 items or more")
+          end
+
+          within "#discount_#{@discount3.id}" do
+            expect(page).to have_content("50% off 20 items or more")
+          end
+        end
+
+        it 'Each bulk discount listed includes a link to its show page' do
+          visit merchant_bulk_discounts_path(45)
+
+          within "#discount_#{@discount1.id}" do
+            expect(page).to have_link("Discount ##{@discount1.id}")
+          end
+
+          within "#discount_#{@discount2.id}" do
+            expect(page).to have_link("Discount ##{@discount2.id}")
+          end
+
+          within "#discount_#{@discount3.id}" do
+            expect(page).to have_link("Discount ##{@discount3.id}")
+          end
+
+          within "#discount_#{@discount1.id}" do
+            click_link "Discount ##{@discount1.id}"
+
+            expect(current_path).to eq(merchant_bulk_discount_path(45, @discount1))
+          end
         end
       end
     end
