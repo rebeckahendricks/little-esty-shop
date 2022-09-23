@@ -8,11 +8,13 @@ class Merchant < ApplicationRecord
   validates :name, presence: true
 
   def enabled_items
-    items.where(status: "enabled")
+    items
+    .where(status: "enabled")
   end
 
   def disabled_items
-    items.where(status: "disabled")
+    items
+    .where(status: "disabled")
   end
 
   def self.enabled_merchants
@@ -25,18 +27,18 @@ class Merchant < ApplicationRecord
 
   def self.top_five_by_revenue
     joins(:items, invoices: :transactions)
-      .select('merchants.*, sum(invoice_items.unit_price * invoice_items.quantity) as revenue')
-      .group(:id)
-      .where(transactions: {result: 0})
-      .order(revenue: :desc)
-      .limit(5)
+    .select('merchants.*, sum(invoice_items.unit_price * invoice_items.quantity) as revenue')
+    .group(:id)
+    .where(transactions: {result: 0})
+    .order(revenue: :desc)
+    .limit(5)
   end
 
   def best_day
     invoices
-      .select(:id, :created_at, 'sum(invoice_items.unit_price * invoice_items.quantity) as revenue')
-      .group(:id)
-      .order(revenue: :desc)
-      .limit(1)[0].created_at
+    .select(:id, :created_at, 'sum(invoice_items.unit_price * invoice_items.quantity) as revenue')
+    .group(:id)
+    .order(revenue: :desc)
+    .limit(1)[0].created_at
   end
 end

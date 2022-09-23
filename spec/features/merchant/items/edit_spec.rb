@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'merchant items show page' do
-  # Method to test API
-  test_api_view
-
-  before(:each) { mock_api_call }
-
   describe 'When I visit the merchant show page of an item' do
     it 'I see a link to update the item information with all the necessary information' do
       visit merchant_item_path(1, 1)

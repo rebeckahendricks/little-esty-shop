@@ -9,10 +9,13 @@ class Invoice < ApplicationRecord
   enum status: [ :in_progress, :completed, :cancelled]
 
   def self.not_shipped_invoices
-    joins(:invoice_items, :customer).where('invoice_items.status != 2').order(:created_at)
+    joins(:invoice_items, :customer)
+    .where('invoice_items.status != 2')
+    .order(:created_at)
   end
 
   def total_revenue
-    invoice_items.sum('invoice_items.quantity * invoice_items.unit_price')
+    invoice_items
+    .sum('invoice_items.quantity * invoice_items.unit_price')
   end
 end
