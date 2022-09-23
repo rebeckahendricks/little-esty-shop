@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'As an admin,' do
-  # Method to test API
-  test_api_view
-
-  before(:each) { mock_api_call }
-
   describe "When I visit a merchant's admin edit page" do
     it "I see a form filled in with the existing merchant attribute information" do
       visit admin_merchants_path

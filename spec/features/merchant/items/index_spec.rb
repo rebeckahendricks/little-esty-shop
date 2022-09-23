@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Merchant Items Index Page' do
-  # Method to test API
-  test_api_view
-
-  before(:each) { mock_api_call }
-
   describe 'As a merchant' do
     describe 'When I visit my merchant items index page ("merchants/merchant_id/items")' do
       it 'I see a list of the names of all of my items' do

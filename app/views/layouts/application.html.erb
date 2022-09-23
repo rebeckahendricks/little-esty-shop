@@ -18,15 +18,5 @@
 
     <%= yield %>
   </body>
-  <footer>
-    <h5>GitHub Repo Info</h5>
-    <p>Repo Name: <%= @github_name %> </p>
-    <p>User Names:</p>
-    <ul>
-      <% @github_logins.each do | collaborator | %>
-        <li><%= collaborator.login %></li>
-      <% end %>
-    </ul>
-    <p>Total Pulls: <%= @github_pulls %></p>
-  </footer>
+  
 </html>

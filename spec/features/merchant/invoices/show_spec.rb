@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Merchant Invoices Show Page' do
-  # Method to test API
-  test_api_view
-
-  before(:each) { mock_api_call }
-
   describe 'As a merchant' do
     describe 'When I visit my merchant invoices show page' do
       it 'Then I see information related to that invoice' do

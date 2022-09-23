@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "As an admin,", type: :feature do
-  # Method to test API
-  test_api_view
-
-  before(:each) { mock_api_call }
-
   describe "when I visit the admin dashboard (/admin)" do
     it "I see a header indicating that I am on the admin dashboard" do
       visit admin_index_path
@@ -214,5 +209,3 @@ RSpec.describe "As an admin,", type: :feature do
     end
   end
 end
-
-

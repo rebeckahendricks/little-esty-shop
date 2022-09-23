@@ -1,12 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "merchant dashboard" do
-  # Method to test API
-  test_api_view
-
   before :each do
-    mock_api_call
-
     @merchant1 = Merchant.create!(id: 45, name:"Bob's Baskets")
 
     @customer1 = Customer.create!(id: 45, first_name:"John", last_name:"Doe")
