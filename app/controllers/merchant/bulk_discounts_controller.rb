@@ -20,7 +20,7 @@ class Merchant::BulkDiscountsController < ApplicationController
     if @bulk_discount.save
       # @invoice_items.each do |invoice_item|
       #   if bulk_discount_params[:threshold].to_i >= invoice_item.quantity
-      #     invoice_item.unit_price = invoice_item.discounted_price(bulk_discount_params[:discount].to_i)
+      #     invoice_item.update(unit_price: invoice_item.discounted_price(bulk_discount_params[:discount].to_i))
       #   end
       # end
       redirect_to merchant_bulk_discounts_path(@merchant), notice: "Discount created successfully!"
