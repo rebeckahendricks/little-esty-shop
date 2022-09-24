@@ -77,6 +77,19 @@ RSpec.describe 'Merchant Bulk Discount Edit', type: :feature do
           expect(page).to have_content("Discount successfully updated!")
         end
       end
+
+      describe 'When I change some of the information to invalid information and click submit' do
+        it 'I am redirected to the bulk discounts edit page and I see a message that says that my discount was not successfully updated' do
+          visit edit_merchant_bulk_discount_path(@merchant1, @discount1)
+
+          fill_in 'Percent Discount', with: ''
+          fill_in 'Item Threshold', with: '10'
+          click_on "Submit"
+
+          expect(current_path).to eq(edit_merchant_bulk_discount_path(@merchant1, @discount1))
+          expect(page).to have_content("Discount not updated: Missing required information.")
+        end
+      end
     end
   end
 end
