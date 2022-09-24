@@ -45,7 +45,7 @@ RSpec.describe 'Merchant Invoices Show Page' do
 
         visit merchant_invoice_path(@merchant, invoice_1)
 
-        expect(page).to have_content("Total Revenue: $21067.77")
+        expect(page).to have_content("Total Revenue: $23527.28")
       end
 
       it 'I see that each invoice item status is a select field and I see that the invoice items current status is selected' do
@@ -111,6 +111,14 @@ RSpec.describe 'Merchant Invoices Show Page' do
             end
           end
         end
+      end
+
+      it 'I see that total discounted revenue for my merchant from this invoice which includes bulk discounts in the calculation' do
+        @merchant = Merchant.first
+        invoice_1 = @merchant.invoices.first
+
+        visit merchant_invoice_path(@merchant, invoice_1)
+        expect(page).to have_content("Total Discounted Revenue: $21067.77")
       end
     end
   end

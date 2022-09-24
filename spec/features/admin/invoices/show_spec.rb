@@ -70,7 +70,7 @@ RSpec.describe 'As an admin,' do
     end
 
     it "Then I see the total revenue that will be generated from this invoice" do
-      expect(page).to have_content("Total Invoice Revenue: $21067.77")
+      expect(page).to have_content("Total Invoice Revenue: $23527.28")
     end
 
     it "I see the invoice status is a select field, And I see that the invoice's current status is selected" do
