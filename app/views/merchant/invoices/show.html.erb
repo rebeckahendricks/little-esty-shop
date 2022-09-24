@@ -13,7 +13,7 @@
     <th>Status</th>
   </tr>
 
-  <% @invoice_items.each do |invoice_item| %>
+  <% @invoice.invoice_items.each do |invoice_item| %>
     <tr>
       <td><%= invoice_item.item.name %></td>
       <td><%= invoice_item.quantity %></td>
@@ -23,6 +23,7 @@
           <%= form_with url: merchant_invoice_path(@merchant, @invoice), method: :patch do |form| %>
           <%= form.select :status, ["pending", "packaged", "shipped"], selected: "#{invoice_item.status}" %>
           <%= form.hidden_field :item_id, value: invoice_item.item_id %>
+          <%= form.hidden_field :invoice_item_id, value: invoice_item.id %>
           <%= form.submit "Update Item Status" %>
           <% end %>
         </div></td>
