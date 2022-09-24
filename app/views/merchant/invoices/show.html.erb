@@ -15,9 +15,9 @@
 
   <% @invoice.invoice_items.each do |invoice_item| %>
     <tr>
-      <td><%= invoice_item.item.name %></td>
-      <td><%= invoice_item.quantity %></td>
-      <td>$<%= '%.2f'% ((invoice_item.unit_price.to_f) / 100) %></td>
+      <td id="name_<%= "#{invoice_item.id}"%>"><%= invoice_item.item.name %></td>
+      <td id="quantity_<%= "#{invoice_item.id}"%>"><%= invoice_item.quantity %></td>
+      <td id="price_<%= "#{invoice_item.id}"%>">$<%= '%.2f'% ((invoice_item.unit_price.to_f) / 100) %></td>
       <td><%= invoice_item.status %>
         <div id="status_<%= "#{invoice_item.item.id}" %>">
           <%= form_with url: merchant_invoice_path(@merchant, @invoice), method: :patch do |form| %>
