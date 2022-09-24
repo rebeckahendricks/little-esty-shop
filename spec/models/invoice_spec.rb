@@ -46,7 +46,7 @@ RSpec.describe Invoice, type: :model do
     end
 
     describe '.total_revenue' do
-      it "Should return the total price of all items on an invoice" do
+      it "Should return the total cost of all items on an invoice before discounts" do
         expect(@invoice1.total_revenue).to eq(72150)
       end
     end
