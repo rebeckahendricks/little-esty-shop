@@ -60,9 +60,9 @@ RSpec.describe InvoiceItem, type: :model do
 
     describe '.discounted_price(percent_discount)' do
       it 'can calculate a discounted unit price given a percent discount' do
-        expect(@invoice_item1.discounted_price(20)).to eq(1199.2)
-        expect(@invoice_item19.discounted_price(50)).to eq(749.5)
-        expect(@invoice_item20.discounted_price(90)).to eq(149.9)
+        expect(@invoice_item1.discounted_price(20)).to eq(1199)
+        expect(@invoice_item19.discounted_price(50)).to eq(749)
+        expect(@invoice_item20.discounted_price(90)).to eq(149)
       end
     end
   end

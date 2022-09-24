@@ -46,8 +46,14 @@ class Merchant::BulkDiscountsController < ApplicationController
 
   def destroy
     @merchant = Merchant.find(params[:merchant_id])
-    BulkDiscount.find(params[:id]).destroy
-    #Create logic to make sure that when a discount is deleted, the unit_price of the invoice_item is restored to item.unit_price
+    bulk_discount = BulkDiscount.find(params[:id])
+    @invoice_items = @merchant.invoice_items
+    @invoice_items.each do |invoice_item|
+      if invoice_item.unit_price == invoice_item.discounted_price(bulk_discount.discount) && invoice_item.quantity >= bulk_discount.threshold
+        invoice_item.update(unit_price: invoice_item.item.unit_price)
+      end
+    end
+    bulk_discount.destroy
     redirect_to merchant_bulk_discounts_path(@merchant)
   end
 
