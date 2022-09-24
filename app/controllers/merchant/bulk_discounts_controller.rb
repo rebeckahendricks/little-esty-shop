@@ -4,6 +4,7 @@ class Merchant::BulkDiscountsController < ApplicationController
   end
 
   def show
+    @merchant = Merchant.find(params[:merchant_id])
     @bulk_discount = BulkDiscount.find(params[:id])
   end
 
@@ -19,6 +20,21 @@ class Merchant::BulkDiscountsController < ApplicationController
       redirect_to merchant_bulk_discounts_path(@merchant), notice: "Discount created successfully!"
     else
       redirect_to new_merchant_bulk_discount_path(@merchant), notice: "Discount not created: Missing required information."
+    end
+  end
+
+  def edit
+    @merchant = Merchant.find(params[:merchant_id])
+    @bulk_discount = BulkDiscount.find(params[:id])
+  end
+
+  def update
+    @merchant = Merchant.find(params[:merchant_id])
+    bulk_discount = BulkDiscount.find(params[:id])
+    if bulk_discount.update(bulk_discount_params)
+      redirect_to merchant_bulk_discount_path(@merchant, bulk_discount), notice: "Discount successfully updated!"
+    else
+      redirect_to edit_merchant_bulk_discount_path(@merchant, bulk_discount), notice: "Discount not updated: Missing required information."
     end
   end
 
