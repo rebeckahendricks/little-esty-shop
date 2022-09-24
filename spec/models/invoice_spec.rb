@@ -38,11 +38,11 @@ RSpec.describe Invoice, type: :model do
 
       @invoice1 = Invoice.create!(id: 45, customer_id: @customer1.id, status: 1)
 
-      @invoice_item1 = InvoiceItem.create!(id: 45, item_id: @item1.id, invoice_id: @invoice1.id, quantity:1, unit_price:1499 , status: 0)
-      @invoice_item19 = InvoiceItem.create!(id: 63, item_id: @item1.id, invoice_id: @invoice1.id, quantity:6, unit_price:1499 , status: 0)
-      @invoice_item20 = InvoiceItem.create!(id: 64, item_id: @item1.id, invoice_id: @invoice1.id, quantity:17, unit_price:1499 , status: 0)
-      @invoice_item21 = InvoiceItem.create!(id: 65, item_id: @item2.id, invoice_id: @invoice1.id, quantity:25, unit_price:1399 , status: 0)
-      @invoice_item22 = InvoiceItem.create!(id: 66, item_id: @item3.id, invoice_id: @invoice1.id, quantity:1, unit_price:1199 , status: 0)
+      @invoice_item1 = InvoiceItem.create!(id: 45, item_id: @item1.id, invoice_id: @invoice1.id, quantity:1, unit_price:1499, status: 0)
+      @invoice_item19 = InvoiceItem.create!(id: 63, item_id: @item1.id, invoice_id: @invoice1.id, quantity:6, unit_price:1199, status: 0)
+      @invoice_item20 = InvoiceItem.create!(id: 64, item_id: @item1.id, invoice_id: @invoice1.id, quantity:17, unit_price:1049, status: 0)
+      @invoice_item21 = InvoiceItem.create!(id: 65, item_id: @item2.id, invoice_id: @invoice1.id, quantity:25, unit_price:700, status: 0)
+      @invoice_item22 = InvoiceItem.create!(id: 66, item_id: @item3.id, invoice_id: @invoice1.id, quantity:1, unit_price:1199, status: 0)
     end
 
     describe '.total_revenue' do
@@ -53,7 +53,7 @@ RSpec.describe Invoice, type: :model do
 
     describe '.total_discounted_revenue' do
       it 'should return the revenue on an invoice after all discounts have been applied' do
-        expect(@invoice1.total_discounted_revenue).to eq(45219)
+        expect(@invoice1.total_discounted_revenue).to eq(45225)
       end
     end
   end
