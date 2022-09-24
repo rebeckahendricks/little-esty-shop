@@ -21,11 +21,11 @@ RSpec.describe 'Merchant Bulk Discount Edit', type: :feature do
 
           click_link "Edit Discount"
 
-          expect(current_path).to eq(edit_merchant_bulk_discount(@merchant1, @discount1))
+          expect(current_path).to eq(edit_merchant_bulk_discount_path(@merchant1, @discount1))
         end
 
         it 'I see that the discounts current attributes are pre-populated in the form' do
-          visit edit_merchant_bulk_discount(@merchant1, @discount1)
+          visit edit_merchant_bulk_discount_path(@merchant1, @discount1)
 
           expect(page).to have_field('Percent Discount', with: '20')
           expect(page).to have_field('Item Threshold', with: '5')
@@ -34,47 +34,47 @@ RSpec.describe 'Merchant Bulk Discount Edit', type: :feature do
 
       describe 'When I change any/all of the information and click submit' do
         it 'I am redirected to the bulk discounts show page' do
-          visit edit_merchant_bulk_discount(@merchant1, @discount1)
+          visit edit_merchant_bulk_discount_path(@merchant1, @discount1)
 
           fill_in 'Percent Discount', with: '45'
-          click_link "Submit"
+          click_on "Submit"
 
           expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @discount1))
         end
 
         it 'I see that the discounts attributes have been updated' do
-          visit edit_merchant_bulk_discount(@merchant1, @discount1)
+          visit edit_merchant_bulk_discount_path(@merchant1, @discount1)
 
           fill_in 'Percent Discount', with: '45'
-          click_link "Submit"
+          click_on "Submit"
 
           expect(page).to have_content("Percent Discount: 45% off")
           expect(page).to have_content("Item Threshold: 5 items or more")
-          expect(page).to have_content("Item successfully updated!")
+          expect(page).to have_content("Discount successfully updated!")
         end
       end
 
       describe 'When I change all of the information and click submit' do
         it 'I am redirected to the bulk discounts show page' do
-          visit edit_merchant_bulk_discount(@merchant1, @discount1)
+          visit edit_merchant_bulk_discount_path(@merchant1, @discount1)
 
           fill_in 'Percent Discount', with: '45'
           fill_in 'Item Threshold', with: '10'
-          click_link "Submit"
+          click_on "Submit"
 
           expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @discount1))
         end
 
         it 'I see that the discounts attributes have been updated' do
-          visit edit_merchant_bulk_discount(@merchant1, @discount1)
+          visit edit_merchant_bulk_discount_path(@merchant1, @discount1)
 
           fill_in 'Percent Discount', with: '45'
           fill_in 'Item Threshold', with: '10'
-          click_link "Submit"
+          click_on "Submit"
 
           expect(page).to have_content("Percent Discount: 45% off")
-          expect(page).to have_content("Item Threshold: 5 items or more")
-          expect(page).to have_content("Item successfully updated!")
+          expect(page).to have_content("Item Threshold: 10 items or more")
+          expect(page).to have_content("Discount successfully updated!")
         end
       end
     end
