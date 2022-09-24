@@ -14,11 +14,12 @@ RSpec.describe 'Merchant Buld Discount Show', type: :feature do
         visit merchant_bulk_discount_path(@merchant1, @discount1)
 
         expect(page).to have_content("Discount ##{@discount1.id}")
-        expect(page).to have_content("20% off 5 items or more")
+        expect(page).to have_content("Percent Discount: 20% off")
+        expect(page).to have_content("Item Threshold: 5 items or more")
 
         expect(page).to_not have_content("Discount ##{@discount2.id}")
-        expect(page).to_not have_content("30% off 10 items or more")
-
+        expect(page).to_not have_content("Percent Discount: 30% off")
+        expect(page).to_not have_content("Item Threshold: 10 items or more")
       end
     end
   end
