@@ -18,11 +18,11 @@ class Merchant::BulkDiscountsController < ApplicationController
     @bulk_discount = BulkDiscount.new(bulk_discount_params)
     @invoice_items = @merchant.invoice_items
     if @bulk_discount.save
-      # @invoice_items.each do |invoice_item|
-      #   if bulk_discount_params[:threshold].to_i >= invoice_item.quantity
-      #     invoice_item.update(unit_price: invoice_item.discounted_price(bulk_discount_params[:discount].to_i))
-      #   end
-      # end
+      @invoice_items.each do |invoice_item|
+        if invoice_item.quantity >= bulk_discount_params[:threshold].to_i
+          invoice_item.update(unit_price: invoice_item.discounted_price(bulk_discount_params[:discount].to_i))
+        end
+      end
       redirect_to merchant_bulk_discounts_path(@merchant), notice: "Discount created successfully!"
     else
       redirect_to new_merchant_bulk_discount_path(@merchant), notice: "Discount not created: Missing required information."
