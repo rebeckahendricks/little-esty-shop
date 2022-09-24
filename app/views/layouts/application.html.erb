@@ -5,7 +5,24 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <style>
+      table, th, td {
+        border: 1px solid;
+        border-collapse: collapse;
+        text-align: center;
+      }
+
+      th {
+        background-color: #04AA6D;
+        color: white;
+        padding: 10px;
+      }
+
+      td {
+        padding: 5px;
+      }
+    </style>
+
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
@@ -18,5 +35,5 @@
 
     <%= yield %>
   </body>
-  
+
 </html>
