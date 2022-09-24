@@ -14,4 +14,8 @@ class InvoiceItem < ApplicationRecord
       .joins(item: [:invoice_items])
       .where("items.merchant_id = #{merchant_id}")
   end
+
+  def discounted_price(percent_discount)
+    unit_price.to_f * (100 - percent_discount) / 100
+  end
 end
