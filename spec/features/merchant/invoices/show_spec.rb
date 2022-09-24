@@ -45,7 +45,7 @@ RSpec.describe 'Merchant Invoices Show Page' do
 
         visit merchant_invoice_path(@merchant, invoice_1)
 
-        expect(page).to have_content("Total Revenue: $21067.77")
+        expect(page).to have_content("Total Revenue: $23527.28")
       end
 
       it 'I see that each invoice item status is a select field and I see that the invoice items current status is selected' do
