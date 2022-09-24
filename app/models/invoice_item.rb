@@ -16,6 +16,6 @@ class InvoiceItem < ApplicationRecord
   end
 
   def discounted_price(percent_discount)
-    unit_price.to_f * (100 - percent_discount) / 100
+    item.unit_price.to_f * (100 - percent_discount) / 100
   end
 end
