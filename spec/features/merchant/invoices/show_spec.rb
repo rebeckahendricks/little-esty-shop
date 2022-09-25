@@ -167,7 +167,7 @@ RSpec.describe 'Merchant Invoices Show Page' do
 
           visit merchant_invoice_path(@merchant1, @invoice1)
 
-          within "#discount_#{@invoice_item19.id}" do
+          within "#discount_#{@invoice_item21.id}" do
             expect(page).to have_link("Discount Details")
             click_link "Discount Details"
           end
