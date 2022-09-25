@@ -98,5 +98,41 @@ RSpec.describe 'As an admin,' do
       # expect(page).to_not have_content("in_progress") must be in within block
       expect(page).to_not have_content("Cecelia Osinski")
     end
+
+    describe 'Admin Invoice Show Page: Total Revenue and Discounted Revenue' do
+      before :each do
+        @merchant1 = Merchant.create!(id: 45, name:"Bob's Baskets")
+
+        @customer1 = Customer.create!(id: 45, first_name:"John", last_name:"Doe")
+
+        @item1 = Item.create!(id: 45, name:"Big basket", description:"Green and big", unit_price: 1499, merchant_id: @merchant1.id)
+        @item2 = Item.create!(id: 46, name:"Medium basket", description:"Blue and medium", unit_price: 1399, merchant_id: @merchant1.id)
+        @item3 = Item.create!(id: 47, name:"Little basket", description:"Yellow and small", unit_price: 1199, merchant_id: @merchant1.id)
+
+        @discount1 = BulkDiscount.create!(merchant_id: 45, discount: 20, threshold: 5)
+        @discount2 = BulkDiscount.create!(merchant_id: 45, discount: 30, threshold: 10)
+        @discount3 = BulkDiscount.create!(merchant_id: 45, discount: 50, threshold: 20)
+
+        @invoice1 = Invoice.create!(id: 45, customer_id: @customer1.id, status: 1)
+
+        @invoice_item1 = InvoiceItem.create!(id: 45, item_id: @item1.id, invoice_id: @invoice1.id, quantity:1, unit_price:1499 , status: 0)
+        @invoice_item19 = InvoiceItem.create!(id: 63, item_id: @item1.id, invoice_id: @invoice1.id, quantity:6, unit_price:1199 , status: 0)
+        @invoice_item20 = InvoiceItem.create!(id: 64, item_id: @item1.id, invoice_id: @invoice1.id, quantity:17, unit_price:1049 , status: 0)
+        @invoice_item21 = InvoiceItem.create!(id: 65, item_id: @item2.id, invoice_id: @invoice1.id, quantity:25, unit_price:699 , status: 0)
+        @invoice_item22 = InvoiceItem.create!(id: 66, item_id: @item3.id, invoice_id: @invoice1.id, quantity:1, unit_price:1199 , status: 0)
+      end
+
+      it 'I see the total revenue from this invoice (not including discounts)' do
+        visit admin_invoice_path(@invoice1)
+
+        expect(page).to have_content("Total Invoice Revenue: $721.50")
+      end
+
+      it 'I see the total discounted revenue from this invoice which includes bulk discounts in the calculation' do
+        visit admin_invoice_path(@invoice1)
+
+        expect(page).to have_content("Total Discounted Revenue: $452.00")
+      end
+    end
   end
 end
