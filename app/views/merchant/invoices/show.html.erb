@@ -31,7 +31,7 @@
       </td>
       <td id="discount_<%= "#{invoice_item.id}"%>">
         <% if invoice_item.item.unit_price != invoice_item.unit_price %>
-          <%= link_to "Discount Details" %>
+          <%= link_to "Discount Details", "/merchants/#{@merchant.id}/bulk_discounts/#{invoice_item.bulk_discount_id}" %>
         <% else %>
           No discounts applied
         <% end %>
