@@ -11,6 +11,7 @@ class Invoice < ApplicationRecord
   def self.not_shipped_invoices
     joins(:invoice_items, :customer)
     .where('invoice_items.status != 2')
+    .distinct
     .order(:created_at)
   end
 

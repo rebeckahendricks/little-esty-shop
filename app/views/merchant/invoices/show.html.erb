@@ -10,6 +10,7 @@
     <th>Item Name</th>
     <th>Quantity</th>
     <th>Unit Price</th>
+    <th>Discounted Unit Price</th>
     <th>Status</th>
     <th>Discounts</th>
   </tr>
@@ -18,6 +19,7 @@
     <tr>
       <td id="name_<%= "#{invoice_item.id}"%>"><%= invoice_item.item.name %></td>
       <td id="quantity_<%= "#{invoice_item.id}"%>"><%= invoice_item.quantity %></td>
+      <td id="price1_<%= "#{invoice_item.id}"%>">$<%= '%.2f'% ((invoice_item.item.unit_price.to_f) / 100) %></td>
       <td id="price_<%= "#{invoice_item.id}"%>">$<%= '%.2f'% ((invoice_item.unit_price.to_f) / 100) %></td>
       <td><%= invoice_item.status %>
         <div id="status_<%= "#{invoice_item.item.id}" %>">
