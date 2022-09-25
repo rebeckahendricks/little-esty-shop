@@ -11,6 +11,7 @@
     <th>Quantity</th>
     <th>Unit Price</th>
     <th>Status</th>
+    <th>Discounts</th>
   </tr>
 
   <% @invoice.invoice_items.each do |invoice_item| %>
@@ -26,7 +27,15 @@
           <%= form.hidden_field :invoice_item_id, value: invoice_item.id %>
           <%= form.submit "Update Item Status" %>
           <% end %>
-        </div></td>
+        </div>
+      </td>
+      <td id="discount_<%= "#{invoice_item.id}"%>">
+        <% if invoice_item.item.unit_price != invoice_item.unit_price %>
+          <%= link_to "Discount Details", "/merchants/#{@merchant.id}/bulk_discounts/#{invoice_item.bulk_discount_id}" %>
+        <% else %>
+          No discounts applied
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>
