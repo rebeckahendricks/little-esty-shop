@@ -71,7 +71,7 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
 
     it 'I see a section with a header of "Upcoming Holidays"' do
       @merchant1 = Merchant.create!(id: 45, name:"Bob's Baskets")
-      
+
       visit merchant_bulk_discounts_path(@merchant1)
 
       expect(page).to have_content("Upcoming Holidays")

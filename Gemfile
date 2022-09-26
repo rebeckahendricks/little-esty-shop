@@ -46,7 +46,6 @@ group :development, :test do
   gem 'orderly'
   gem 'simplecov'
   gem 'launchy'
-  gem 'webmock'
   gem 'figaro'
 end
 
