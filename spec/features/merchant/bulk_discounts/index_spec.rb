@@ -89,6 +89,7 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
         expect(page).to have_content("Columbus Day: 2022-10-10")
         expect(page).to have_content("Veterans Day: 2022-11-11")
         expect(page).to have_content("Thanksgiving Day: 2022-11-24")
+        expect(page).to_not have_content("Christmas Day: 2022-12-26")
       end
     end
   end

@@ -12,7 +12,7 @@
 
 <section id="upcoming_holidays">
   <h4>Upcoming Holidays</h4>
-  <% @holidays.each do |holiday| %>
+  <% @holidays.first(3).each do |holiday| %>
     <p><%= holiday.name %>: <%= holiday.date %></p>
   <% end %>
 </section>

@@ -10,8 +10,11 @@ class HolidayFacade
 
   # def self.next_three_holidays
   #   data = HolidayService.get_holidays
-  #   x = data.3.times do |holiday_data|
-  #     Holiday.new(holiday_data)
+  #   holidays = []
+  #   until holidays.count == 3
+  #     data.each do |holiday_data|
+  #       holidays << Holiday.new(holiday_data)
+  #     end
   #   end
   # end
 end
