@@ -70,6 +70,8 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
     end
 
     it 'I see a section with a header of "Upcoming Holidays"' do
+      @merchant1 = Merchant.create!(id: 45, name:"Bob's Baskets")
+      
       visit merchant_bulk_discounts_path(@merchant1)
 
       expect(page).to have_content("Upcoming Holidays")
@@ -77,7 +79,7 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
 
     it 'In the "Upcoming Holidays" section, I see the name and date of the next 3 upcoming US holidays' do
       @merchant1 = Merchant.create!(id: 45, name:"Bob's Baskets")
-      
+
       new_time = Time.local(2022, 9, 26, 12, 0, 0)
       Timecop.freeze(new_time)
 
