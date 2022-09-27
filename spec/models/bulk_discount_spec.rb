@@ -33,12 +33,12 @@ RSpec.describe BulkDiscount, type: :model do
       @invoice_item4 = InvoiceItem.create!(id: 65, item_id: @item2.id, invoice_id: @invoice1.id, quantity:25, unit_price:1399 , status: 0)
     end
 
-    describe '.best_discount(invoice_item_id)' do
+    describe '.best_discount(invoice_item_quantity)' do
       it 'can find the best bulk discount that applies to a certain invoice_item' do
-        expect(BulkDiscount.best_discount(@invoice_item1.id)).to eq(nil)
-        expect(BulkDiscount.best_discount(@invoice_item2.id)).to eq(@discount1)
-        expect(BulkDiscount.best_discount(@invoice_item3.id)).to eq(@discount2)
-        expect(BulkDiscount.best_discount(@invoice_item4.id)).to eq(@discount3)
+        expect(BulkDiscount.best_discount(@invoice_item1.quantity)).to eq(nil)
+        expect(BulkDiscount.best_discount(@invoice_item2.quantity)).to eq(@discount1)
+        expect(BulkDiscount.best_discount(@invoice_item3.quantity)).to eq(@discount2)
+        expect(BulkDiscount.best_discount(@invoice_item4.quantity)).to eq(@discount3)
       end
     end
   end
