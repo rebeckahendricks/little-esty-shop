@@ -61,17 +61,17 @@ class Merchant::BulkDiscountsController < ApplicationController
     bulk_discount = BulkDiscount.find(params[:id])
     @invoice_items = @merchant.invoice_items
     @invoice_items.each do |invoice_item|
-      # best_discount = @merchant.bulk_discounts.best_discount(invoice_item.quantity)
       if bulk_discount.id == invoice_item.bulk_discount_id
-        # if best_discount
-        #   invoice_item.update(unit_price: invoice_item.item.unit_price, bulk_discount_id: best_discount.id)
-        # else
           invoice_item.update(unit_price: invoice_item.item.unit_price, bulk_discount_id: nil)
-        # end
-        #unless another bulk_discount exists that applies
       end
     end
     bulk_discount.destroy
+    @invoice_items.each do |invoice_item|
+      best_discount = @merchant.bulk_discounts.best_discount(invoice_item.quantity)
+      if best_discount
+        invoice_item.update(unit_price: invoice_item.discounted_price(best_discount.discount), bulk_discount_id: best_discount.id)
+      end
+    end
     redirect_to merchant_bulk_discounts_path(@merchant)
   end
 
