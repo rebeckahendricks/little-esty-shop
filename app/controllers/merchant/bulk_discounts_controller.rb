@@ -42,7 +42,7 @@ class Merchant::BulkDiscountsController < ApplicationController
     if bulk_discount.update(bulk_discount_params)
       @invoice_items.each do |invoice_item|
         best_discount = @merchant.bulk_discounts.best_discount(invoice_item.quantity)
-        if bulk_discount.id == invoice_item.bulk_discount_id
+        if invoice_item.belongs_to?(bulk_discount.id)
             invoice_item.update(unit_price: invoice_item.item.unit_price, bulk_discount_id: nil)
             if best_discount
               invoice_item.update(unit_price: invoice_item.discounted_price(best_discount.discount), bulk_discount_id: best_discount.id)
@@ -60,7 +60,7 @@ class Merchant::BulkDiscountsController < ApplicationController
     bulk_discount = BulkDiscount.find(params[:id])
     @invoice_items = @merchant.invoice_items
     @invoice_items.each do |invoice_item|
-      if bulk_discount.id == invoice_item.bulk_discount_id
+      if invoice_item.belongs_to?(bulk_discount.id)
           invoice_item.update(unit_price: invoice_item.item.unit_price, bulk_discount_id: nil)
       end
     end
