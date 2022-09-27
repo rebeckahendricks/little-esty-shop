@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'date'
 
 RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
   describe 'As a merchant' do
@@ -65,6 +66,30 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
             expect(page).to have_content("50% off 20 items or more")
           end
         end
+      end
+    end
+
+    it 'I see a section with a header of "Upcoming Holidays"' do
+      @merchant1 = Merchant.create!(id: 45, name:"Bob's Baskets")
+
+      visit merchant_bulk_discounts_path(@merchant1)
+
+      expect(page).to have_content("Upcoming Holidays")
+    end
+
+    it 'In the "Upcoming Holidays" section, I see the name and date of the next 3 upcoming US holidays' do
+      @merchant1 = Merchant.create!(id: 45, name:"Bob's Baskets")
+
+      new_time = Time.local(2022, 9, 26, 12, 0, 0)
+      Timecop.freeze(new_time)
+
+      visit merchant_bulk_discounts_path(@merchant1)
+
+      within "#upcoming_holidays" do
+        expect(page).to have_content("Columbus Day: 2022-10-10")
+        expect(page).to have_content("Veterans Day: 2022-11-11")
+        expect(page).to have_content("Thanksgiving Day: 2022-11-24")
+        expect(page).to_not have_content("Christmas Day: 2022-12-26")
       end
     end
   end
