@@ -20,8 +20,8 @@ class Merchant::BulkDiscountsController < ApplicationController
     @invoice_items = @merchant.invoice_items
     if @bulk_discount.save
       @invoice_items.each do |invoice_item|
-        if invoice_item.quantity >= bulk_discount_params[:threshold].to_i && invoice_item.discounted_price(bulk_discount_params[:discount].to_i) < invoice_item.unit_price
-          invoice_item.update(unit_price: invoice_item.discounted_price(bulk_discount_params[:discount].to_i), bulk_discount_id: @bulk_discount.id)
+        if invoice_item.apply_new_discount?(bulk_discount_params[:threshold], bulk_discount_params[:discount])
+          invoice_item.update(unit_price: invoice_item.discounted_price(bulk_discount_params[:discount]), bulk_discount_id: @bulk_discount.id)
         end
       end
       redirect_to merchant_bulk_discounts_path(@merchant), notice: "Discount created successfully!"
@@ -41,10 +41,12 @@ class Merchant::BulkDiscountsController < ApplicationController
     @invoice_items = @merchant.invoice_items
     if bulk_discount.update(bulk_discount_params)
       @invoice_items.each do |invoice_item|
-        if invoice_item.quantity >= bulk_discount_params[:threshold].to_i && invoice_item.discounted_price(bulk_discount_params[:discount].to_i) != invoice_item.unit_price
-          invoice_item.update(unit_price: invoice_item.discounted_price(bulk_discount_params[:discount].to_i), bulk_discount_id: bulk_discount.id)
-        elsif bulk_discount.id == invoice_item.bulk_discount_id && invoice_item.quantity < bulk_discount_params[:threshold].to_i
-          invoice_item.update(unit_price: invoice_item.item.unit_price, bulk_discount_id: nil)
+        best_discount = @merchant.bulk_discounts.best_discount(invoice_item.quantity)
+        if bulk_discount.id == invoice_item.bulk_discount_id
+            invoice_item.update(unit_price: invoice_item.item.unit_price, bulk_discount_id: nil)
+            if best_discount
+              invoice_item.update(unit_price: invoice_item.discounted_price(best_discount.discount), bulk_discount_id: best_discount.id)
+            end
         end
       end
       redirect_to merchant_bulk_discount_path(@merchant, bulk_discount), notice: "Discount successfully updated!"
@@ -59,10 +61,16 @@ class Merchant::BulkDiscountsController < ApplicationController
     @invoice_items = @merchant.invoice_items
     @invoice_items.each do |invoice_item|
       if bulk_discount.id == invoice_item.bulk_discount_id
-        invoice_item.update(unit_price: invoice_item.item.unit_price, bulk_discount_id: nil)
+          invoice_item.update(unit_price: invoice_item.item.unit_price, bulk_discount_id: nil)
       end
     end
     bulk_discount.destroy
+    @invoice_items.each do |invoice_item|
+      best_discount = @merchant.bulk_discounts.best_discount(invoice_item.quantity)
+      if best_discount
+        invoice_item.update(unit_price: invoice_item.discounted_price(best_discount.discount), bulk_discount_id: best_discount.id)
+      end
+    end
     redirect_to merchant_bulk_discounts_path(@merchant)
   end
 

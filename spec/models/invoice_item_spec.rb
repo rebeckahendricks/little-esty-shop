@@ -4,7 +4,6 @@ RSpec.describe InvoiceItem, type: :model do
   describe 'relationships' do
     it { should belong_to(:invoice) }
     it { should belong_to(:item) }
-    # it { should belong_to(:bulk_discount).conditions(optional: true) }
   end
 
   describe 'validations' do
@@ -55,7 +54,7 @@ RSpec.describe InvoiceItem, type: :model do
       @invoice_item1 = InvoiceItem.create!(id: 45, item_id: @item1.id, invoice_id: @invoice1.id, quantity:1, unit_price:1499 , status: 0)
       @invoice_item19 = InvoiceItem.create!(id: 63, item_id: @item1.id, invoice_id: @invoice1.id, quantity:6, unit_price:1499 , status: 0)
       @invoice_item20 = InvoiceItem.create!(id: 64, item_id: @item1.id, invoice_id: @invoice1.id, quantity:17, unit_price:1499 , status: 0)
-      @invoice_item21 = InvoiceItem.create!(id: 65, item_id: @item2.id, invoice_id: @invoice1.id, quantity:25, unit_price:1399 , status: 0)
+      @invoice_item21 = InvoiceItem.create!(id: 65, item_id: @item2.id, invoice_id: @invoice1.id, quantity:25, unit_price:599 , status: 0)
       @invoice_item22 = InvoiceItem.create!(id: 66, item_id: @item3.id, invoice_id: @invoice1.id, quantity:1, unit_price:1199 , status: 0)
     end
 
@@ -64,6 +63,21 @@ RSpec.describe InvoiceItem, type: :model do
         expect(@invoice_item1.discounted_price(20)).to eq(1199)
         expect(@invoice_item19.discounted_price(50)).to eq(749)
         expect(@invoice_item20.discounted_price(90)).to eq(149)
+      end
+    end
+
+    describe '.apply_new_discount?(threshold, percent_discount)' do
+      it 'can return true if a new bulk_discount should apply to an invoice_item' do
+        expect(@invoice_item19.apply_new_discount?(5, 20)).to eq(true)
+        expect(@invoice_item1.apply_new_discount?(5, 20)).to eq(false)
+        expect(@invoice_item21.apply_new_discount?(5, 20)).to eq(false)
+      end
+    end
+
+    describe '.discounted?' do
+      it 'can determine if an invoice_item has a discount applied or not' do
+        expect(@invoice_item21.discounted?).to eq(true)
+        expect(@invoice_item1.discounted?).to eq(false)
       end
     end
   end

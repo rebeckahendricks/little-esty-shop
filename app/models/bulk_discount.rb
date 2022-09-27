@@ -4,4 +4,10 @@ class BulkDiscount < ApplicationRecord
 
   validates :discount, presence: true, numericality: true
   validates :threshold, presence: true, numericality: true
+
+  def self.best_discount(invoice_item_quantity)
+    where('threshold <= ?', invoice_item_quantity)
+    .order(discount: :desc)
+    .first
+  end
 end
