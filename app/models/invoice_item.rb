@@ -24,10 +24,6 @@ class InvoiceItem < ApplicationRecord
     quantity >= threshold.to_i && discounted_price(percent_discount.to_i) < unit_price
   end
 
-  def replace_discount?(discount_id, threshold)
-    bulk_discount_id == discount_id && quantity < threshold.to_i
-  end
-
   def discounted?
     item.unit_price != unit_price
   end
