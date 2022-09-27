@@ -17,6 +17,10 @@ class InvoiceItem < ApplicationRecord
   end
 
   def discounted_price(percent_discount)
-    item.unit_price * (100 - percent_discount) / 100
+    item.unit_price * (100 - percent_discount.to_i) / 100
+  end
+
+  def apply_new_discount?(threshold, percent_discount)
+    quantity >= threshold.to_i && discounted_price(percent_discount.to_i) < unit_price
   end
 end
