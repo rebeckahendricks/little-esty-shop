@@ -73,5 +73,12 @@ RSpec.describe InvoiceItem, type: :model do
         expect(@invoice_item21.apply_new_discount?(5, 20)).to eq(false)
       end
     end
+
+    describe '.discounted?' do
+      it 'can determine if an invoice_item has a discount applied or not' do
+        expect(@invoice_item21.discounted?).to eq(true)
+        expect(@invoice_item1.discounted?).to eq(false)
+      end
+    end
   end
 end
