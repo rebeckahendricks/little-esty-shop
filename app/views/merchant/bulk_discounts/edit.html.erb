@@ -1,13 +1,3 @@
 <h2>Edit Bulk Discount</h2>
 
-<%= form_with url: merchant_bulk_discount_path(@merchant, @bulk_discount), model: [:merchant, @bulk_discount], local: true, id: "edit_bulk_discount" do |f| %>
-  <%= f.label :discount, "Percent Discount" %>
-  <%= f.number_field :discount, in: 1..100, value: @bulk_discount.discount %><br>
-
-  <%= f.label :threshold, "Item Threshold" %>
-  <%= f.number_field :threshold, value: @bulk_discount.threshold %>
-
-  <%= f.hidden_field :merchant_id, value: @merchant.id %>
-
-  <%= f.submit 'Submit' %>
-<% end %>
+<%= render partial: "form", locals: {url: merchant_bulk_discount_path(@merchant, @bulk_discount), id: "edit_bulk_discount", button_text: 'Submit', method: :patch} %>
