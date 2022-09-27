@@ -31,6 +31,4 @@ class InvoiceItem < ApplicationRecord
   def discounted?
     item.unit_price != unit_price
   end
-
-  
 end
