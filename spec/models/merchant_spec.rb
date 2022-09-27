@@ -34,6 +34,26 @@ RSpec.describe Merchant, type: :model do
         expect(merchant.disabled_items.count).to eq(2)
       end
     end
+  end
+
+  describe 'class methods' do
+    describe '.enabled_merchants' do
+      it 'returns a list of all the merchants that are enabled' do
+        expect(Merchant.enabled_merchants.count).to eq(0)
+
+        Merchant.first.update(status: "enabled")
+        expect(Merchant.enabled_merchants.count).to eq(1)
+      end
+    end
+
+    describe '.disabled_items' do
+      it 'returns a list of all the merchants that are disabled' do
+        expect(Merchant.disabled_merchants.count).to eq(30)
+
+        Merchant.first.update(status: "enabled")
+        expect(Merchant.disabled_merchants.count).to eq(29)
+      end
+    end
 
     describe "top_five_by_revenue" do
       it "returns the top five merchants by revenue" do
