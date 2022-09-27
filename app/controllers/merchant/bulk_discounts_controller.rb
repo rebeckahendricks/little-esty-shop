@@ -41,9 +41,12 @@ class Merchant::BulkDiscountsController < ApplicationController
     @invoice_items = @merchant.invoice_items
     if bulk_discount.update(bulk_discount_params)
       @invoice_items.each do |invoice_item|
-        if invoice_item.quantity >= bulk_discount_params[:threshold].to_i && invoice_item.discounted_price(bulk_discount_params[:discount].to_i) != invoice_item.unit_price
-          invoice_item.update(unit_price: invoice_item.discounted_price(bulk_discount_params[:discount].to_i), bulk_discount_id: bulk_discount.id)
-        elsif bulk_discount.id == invoice_item.bulk_discount_id && invoice_item.quantity < bulk_discount_params[:threshold].to_i
+        if invoice_item.apply_new_discount?(bulk_discount_params[:threshold], bulk_discount_params[:discount])
+        # if invoice_item.quantity >= bulk_discount_params[:threshold].to_i && invoice_item.discounted_price(bulk_discount_params[:discount].to_i) != invoice_item.unit_price
+          invoice_item.update(unit_price: invoice_item.discounted_price(bulk_discount_params[:discount]), bulk_discount_id: bulk_discount.id)
+        elsif invoice_item.replace_discount?(bulk_discount.id, bulk_discount_params[:threshold])
+        # elsif bulk_discount.id == invoice_item.bulk_discount_id && invoice_item.quantity < bulk_discount_params[:threshold].to_i
+
           invoice_item.update(unit_price: invoice_item.item.unit_price, bulk_discount_id: nil)
         end
       end
@@ -60,6 +63,7 @@ class Merchant::BulkDiscountsController < ApplicationController
     @invoice_items.each do |invoice_item|
       if bulk_discount.id == invoice_item.bulk_discount_id
         invoice_item.update(unit_price: invoice_item.item.unit_price, bulk_discount_id: nil)
+        #unless another bulk_discount exists that applies 
       end
     end
     bulk_discount.destroy
